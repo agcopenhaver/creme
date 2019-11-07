@@ -7,6 +7,7 @@
 import io
 import os
 from shutil import rmtree
+import platform
 
 from setuptools import Extension, find_packages, setup, Command
 
@@ -73,37 +74,72 @@ else:
 
 
 # Where the magic happens:
-setup(
-    name=NAME,
-    version=about['__version__'],
-    description=DESCRIPTION,
-    long_description=long_description,
-    long_description_content_type=LONG_DESCRIPTION_CONTENT_TYPE,
-    author=AUTHOR,
-    author_email=EMAIL,
-    python_requires=REQUIRES_PYTHON,
-    url=URL,
-    packages=find_packages(exclude=('tests',)),
-    # If your package is a single module, use this instead of 'packages':
-    # py_modules=['mypackage'],
+if platform.system() == 'Windows':
+    setup(
+        name=NAME,
+        version=about['__version__'],
+        description=DESCRIPTION,
+        long_description=long_description,
+        long_description_content_type=LONG_DESCRIPTION_CONTENT_TYPE,
+        author=AUTHOR,
+        author_email=EMAIL,
+        python_requires=REQUIRES_PYTHON,
+        url=URL,
+        packages=find_packages(exclude=('tests',)),
+        # If your package is a single module, use this instead of 'packages':
+        # py_modules=['mypackage'],
 
-    # entry_points={
-    #     'console_scripts': ['mycli=mymodule:cli'],
-    # },
-    install_requires=base_packages,
-    extras_require={'dev': dev_packages, 'docs': docs_packages},
-    include_package_data=True,
-    license='BSD-3',
-    classifiers=[
-        # Trove classifiers
-        # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
-        'License :: OSI Approved :: BSD License',
-        'Programming Language :: Python',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
-        'Programming Language :: Python :: Implementation :: CPython',
-        'Programming Language :: Python :: Implementation :: PyPy'
-    ],
-    ext_modules=cythonize([Extension('*', sources=['**/*.pyx'], libraries=['m'])])
-)
+        # entry_points={
+        #     'console_scripts': ['mycli=mymodule:cli'],
+        # },
+        install_requires=base_packages,
+        extras_require={'dev': dev_packages, 'docs': docs_packages},
+        include_package_data=True,
+        license='BSD-3',
+        classifiers=[
+            # Trove classifiers
+            # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
+            'License :: OSI Approved :: BSD License',
+            'Programming Language :: Python',
+            'Programming Language :: Python :: 3',
+            'Programming Language :: Python :: 3.6',
+            'Programming Language :: Python :: 3.7',
+            'Programming Language :: Python :: Implementation :: CPython',
+            'Programming Language :: Python :: Implementation :: PyPy'
+        ],
+        ext_modules=cythonize([Extension('*', sources=['**/*.pyx'])])
+    )
+ if platform.system() != 'Windows':
+    setup(
+        name=NAME,
+        version=about['__version__'],
+        description=DESCRIPTION,
+        long_description=long_description,
+        long_description_content_type=LONG_DESCRIPTION_CONTENT_TYPE,
+        author=AUTHOR,
+        author_email=EMAIL,
+        python_requires=REQUIRES_PYTHON,
+        url=URL,
+        packages=find_packages(exclude=('tests',)),
+        # If your package is a single module, use this instead of 'packages':
+        # py_modules=['mypackage'],
+
+        # entry_points={
+        #     'console_scripts': ['mycli=mymodule:cli'],
+        # },
+        install_requires=base_packages,
+        extras_require={'dev': dev_packages, 'docs': docs_packages},
+        include_package_data=True,
+        license='BSD-3',
+        classifiers=[
+            # Trove classifiers
+            # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
+            'License :: OSI Approved :: BSD License',
+            'Programming Language :: Python',
+            'Programming Language :: Python :: 3',
+            'Programming Language :: Python :: 3.6',
+            'Programming Language :: Python :: 3.7',
+            'Programming Language :: Python :: Implementation :: CPython',
+            'Programming Language :: Python :: Implementation ::
+        ext_modules=cythonize([Extension('*', sources=['**/*.pyx'], libraries=['m'])])
+    )
